@@ -46,9 +46,13 @@ def pr_plot(recall_path,precision_path):
             f11=2*(r11*p11)/(r11+p11)
             f1.append(f11)
         f1_filled = interpolate_gaps(f1, limit=6)
+        f1_max=np.max(f1_filled)
+        max_index=np.argmax(f1_filled)
+        print(f1_max,max_index)
         
         
-    plt.subplots_adjust(left=0.10, right=0.95, bottom=0.20, top=0.9, wspace=0.35, hspace=0.45)
+    plt.subplots_adjust(left=0.10, right=0.95, bottom=0.20, top=0.9, wspace=0.35, hspace=0.60)
+    plt.suptitle("PR Plot for Volunteer Cotton")
 
     plt.subplot(2,2,1)
     plt.plot(recall, precision,label='Logistic',color='r')
@@ -78,13 +82,14 @@ def pr_plot(recall_path,precision_path):
     plt.plot(f1_filled,label='Logistic',color='r')
     plt.xlabel('Steps')
     plt.ylabel('f1_score')
+    text= "f1-max={:.3f}".format(f1_max)
+    plt.annotate(text, xy=(max_index, f1_max), xytext=(0.92,f1_max+0.08))
     plt.grid(True)
     plt.savefig('f1_score-steps.png',dpi=1200)
-    
-
     # show the legend
     plt.legend()
     # show the plot
     plt.show()
-
 pr_plot(recall_path,precision_path)
+
+    
